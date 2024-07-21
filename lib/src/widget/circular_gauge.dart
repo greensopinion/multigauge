@@ -44,6 +44,12 @@ class _CircularGaugeState extends State<CircularGauge>
   }
 
   @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
   void didUpdateWidget(CircularGauge oldWidget) {
     super.didUpdateWidget(oldWidget);
     final dataChanged = oldWidget.dataset != widget.dataset;
