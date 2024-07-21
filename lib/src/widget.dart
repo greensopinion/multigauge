@@ -1,8 +1,8 @@
 import 'package:flutter/widgets.dart';
-import 'package:multigauge/src/widget/gauge_band.dart';
-import './style.dart';
-import './widget/circular_gauge.dart';
-import './model.dart';
+import 'widget/gauge_band.dart';
+import 'style.dart';
+import 'widget/circular_gauge.dart';
+import 'model.dart';
 
 class MultiGauge extends StatelessWidget {
   final MultiGaugeModel model;

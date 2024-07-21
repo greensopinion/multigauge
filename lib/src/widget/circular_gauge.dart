@@ -1,7 +1,8 @@
 import 'package:flutter/widgets.dart';
-import './gauge_band.dart';
+
 import '../model.dart';
 import '../style.dart';
+import 'gauge_band.dart';
 
 class CircularGauge extends StatefulWidget {
   final Size size;

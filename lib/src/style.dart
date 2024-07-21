@@ -1,5 +1,5 @@
 import 'package:flutter/widgets.dart';
-import 'package:multigauge/multigauge.dart';
+import '../multigauge.dart';
 
 class MultiGaugeStyle {
   final Color backgoundColor;
