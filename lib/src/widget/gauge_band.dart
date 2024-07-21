@@ -6,18 +6,22 @@ class GaugeBand extends StatelessWidget {
   final Size size;
   final Color color;
   final double lineSize;
+  final StrokeCap strokeCap;
   final double start;
   final double end;
   final double extent;
+  final WidgetBuilder? builder;
 
   const GaugeBand(
       {super.key,
       required this.size,
       required this.color,
       required this.lineSize,
+      required this.strokeCap,
       required this.start,
       required this.end,
-      required this.extent});
+      required this.extent,
+      this.builder});
 
   @override
   Widget build(BuildContext context) =>
@@ -40,10 +44,10 @@ class _GaugeBandPainter extends CustomPainter {
     final paint = Paint()
       ..color = band.color
       ..isAntiAlias = true
-      ..strokeCap = StrokeCap.round
+      ..strokeCap = band.strokeCap
       ..strokeWidth = band.lineSize
       ..style = PaintingStyle.stroke;
-    canvas.drawArc(Offset.zero & band.size, absoluteStart + startOffset,
+    canvas.drawArc(Offset.zero & size, absoluteStart + startOffset,
         absoluteStart - startOffset + endOffset, false, paint);
   }
 

@@ -1,9 +1,10 @@
 import 'package:flutter/widgets.dart';
-import 'package:multigauge/multigauge.dart';
-import 'package:multigauge/src/widget/gauge_band.dart';
+import './gauge_band.dart';
 import '../model.dart';
+import '../style.dart';
 
 class CircularGauge extends StatefulWidget {
+  final Size size;
   final MultiGaugeModel model;
   final GaugeDataset dataset;
   final MultiGaugeStyle style;
@@ -11,6 +12,7 @@ class CircularGauge extends StatefulWidget {
 
   const CircularGauge(
       {super.key,
+      required this.size,
       required this.model,
       required this.dataset,
       required this.style,
@@ -33,16 +35,22 @@ class _CircularGaugeState extends State<CircularGauge> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-        builder: (context, constraints) => Stack(children: [
-              GaugeBand(
-                size: constraints.biggest,
-                color: widget.style.backgoundColor,
-                lineSize: widget.datasetStyle.thickness,
-                start: 0,
-                end: 100,
-                extent: 100,
-              ),
-            ]));
+    final lower = (widget.dataset.lower ?? widget.model.lowerBound) -
+        widget.model.lowerBound;
+    final upper = widget.dataset.upper;
+    if (upper != null) {
+      final bandUpper = upper - widget.model.lowerBound;
+      final extent = (widget.model.upperBound - widget.model.lowerBound);
+      return GaugeBand(
+        size: widget.size,
+        color: widget.datasetStyle.color,
+        lineSize: widget.datasetStyle.thickness,
+        strokeCap: StrokeCap.round,
+        start: lower,
+        end: bandUpper,
+        extent: extent,
+      );
+    }
+    return Container();
   }
 }
