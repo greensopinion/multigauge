@@ -1,3 +1,5 @@
 library multigauge;
 
-export 'src/multi_gauge_widget.dart';
+export 'src/widget.dart';
+export 'src/style.dart';
+export 'src/model.dart';
