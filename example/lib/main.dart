@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:multigauge/multigauge.dart';
 
@@ -29,42 +31,107 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    final model =
-        MultiGaugeModel(lowerBound: 0.0, upperBound: 100.0, datasets: [
+  static const upperBound = 100.0;
+  static const defaultSize = 100.0;
+  static const defaultThickness = 8.0;
+  final random = Random();
+  var size = defaultSize;
+  var thickness = defaultThickness;
+  var models = [
+    MultiGaugeModel(lowerBound: 0.0, upperBound: upperBound, datasets: [
       GaugeDataset(name: 'First', lower: 23, upper: 63),
       GaugeDataset(name: 'Second', lower: 15, upper: 53)
-    ]);
+    ])
+  ];
+
+  void _randomize() {
+    setState(() {
+      size = defaultSize / 2.0 + defaultSize * random.nextDouble();
+      thickness =
+          defaultThickness / 2.0 + defaultThickness * random.nextDouble();
+      models = List.generate(8, (i) => _newModel());
+    });
+  }
+
+  MultiGaugeModel _newModel() {
+    var datasetCount = max(1, (3 * random.nextDouble()).ceil());
+    return MultiGaugeModel(
+        lowerBound: 0.0,
+        upperBound: 100.0,
+        datasets:
+            List.generate(datasetCount, (i) => _createDataset(name: '$i')));
+  }
+
+  GaugeDataset _createDataset({required String name}) {
+    var upper = random.nextDouble() * upperBound;
+    var lower = random.nextDouble() * upperBound;
+    if (upper < lower) {
+      final v = upper;
+      upper = lower;
+      lower = v;
+    }
+    return GaugeDataset(name: 'First', lower: lower, upper: upper);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final style = MultiGaugeStyle(
         backgoundColor: Theme.of(context).highlightColor,
         animationDuration: const Duration(seconds: 1),
         datasetStyles: [
           GaugeDatasetStyle(
-              thickness: 8.0,
+              thickness: thickness,
               color: Colors.orange.shade500,
               builder: (context, dataset) =>
                   Text('${dataset.lower?.round()}-${dataset.upper?.round()}')),
-          GaugeDatasetStyle(thickness: 8.0, color: Colors.blue.shade500)
+          GaugeDatasetStyle(thickness: thickness, color: Colors.blue.shade500),
+          GaugeDatasetStyle(thickness: thickness, color: Colors.green.shade500)
         ]);
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('multigauge Example'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox.square(
-                dimension: 100,
-                child: MultiGauge(
-                  model: model,
-                  style: style,
-                ))
-          ],
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          title: const Text('multigauge Example'),
         ),
-      ),
-    );
+        body: Column(children: [
+          Padding(
+              padding: EdgeInsets.all(8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: _randomize, child: const Text('Randomize'))
+                ],
+              )),
+          Expanded(
+              child: Center(
+            child:
+                Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+              Wrap(
+                children: models
+                    .map((it) => Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: SizedBox.square(
+                            dimension: size,
+                            child: MultiGauge(
+                              model: it,
+                              style: style,
+                            ))))
+                    .toList(),
+              )
+            ]),
+          )),
+          Wrap(
+            alignment: WrapAlignment.start,
+            spacing: 20,
+            children: [
+              Text('Size: ${size.printable()}'),
+              Text('Thickness: ${thickness.printable()}')
+            ],
+          )
+        ]));
   }
+}
+
+extension _Printable on double {
+  double printable() => (this * 10).round() / 10;
 }
