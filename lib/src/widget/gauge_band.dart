@@ -35,11 +35,8 @@ class _GaugeBandPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    const absoluteStart = pi * 3 / 4;
-    const absoluteEnd = pi * 3 / 2;
-    const absoluteExtent = absoluteEnd - absoluteStart;
-    final startOffset = (band.start / band.extent) * absoluteExtent;
-    final endOffset = (band.end / band.extent) * absoluteExtent;
+    final startOffset = (band.start / band.extent) * fullSweep;
+    final endOffset = (band.end / band.extent) * fullSweep;
 
     final paint = Paint()
       ..color = band.color
@@ -48,9 +45,13 @@ class _GaugeBandPainter extends CustomPainter {
       ..strokeWidth = band.lineSize
       ..style = PaintingStyle.stroke;
     canvas.drawArc(Offset.zero & size, absoluteStart + startOffset,
-        absoluteStart - startOffset + endOffset, false, paint);
+        max(endOffset - startOffset, minimumSweep), false, paint);
   }
 
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
+
+const fullSweep = pi * 3 / 2;
+const absoluteStart = pi * 3 / 4;
+const minimumSweep = fullSweep / 1000;
