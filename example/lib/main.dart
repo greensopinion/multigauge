@@ -38,6 +38,7 @@ class _MyHomePageState extends State<MyHomePage> {
     ]);
     final style = MultiGaugeStyle(
         backgoundColor: Theme.of(context).highlightColor,
+        animationDuration: const Duration(seconds: 1),
         datasetStyles: [
           GaugeDatasetStyle(
               thickness: 8.0,

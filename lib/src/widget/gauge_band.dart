@@ -11,6 +11,7 @@ class GaugeBand extends StatelessWidget {
   final double end;
   final double extent;
   final WidgetBuilder? builder;
+  final bool willChange;
 
   const GaugeBand(
       {super.key,
@@ -21,11 +22,12 @@ class GaugeBand extends StatelessWidget {
       required this.start,
       required this.end,
       required this.extent,
+      this.willChange = false,
       this.builder});
 
   @override
-  Widget build(BuildContext context) =>
-      CustomPaint(size: size, painter: _GaugeBandPainter(this));
+  Widget build(BuildContext context) => CustomPaint(
+      size: size, painter: _GaugeBandPainter(this), willChange: willChange);
 }
 
 class _GaugeBandPainter extends CustomPainter {
@@ -37,7 +39,6 @@ class _GaugeBandPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final startOffset = (band.start / band.extent) * fullSweep;
     final endOffset = (band.end / band.extent) * fullSweep;
-
     final paint = Paint()
       ..color = band.color
       ..isAntiAlias = true

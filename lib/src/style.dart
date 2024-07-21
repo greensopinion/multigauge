@@ -6,9 +6,13 @@ class MultiGaugeStyle {
   late final StrokeCap backgroundCap;
   final List<GaugeDatasetStyle> datasetStyles;
 
+  /// the duration of animations when rendering gauge
+  final Duration? animationDuration;
+
   MultiGaugeStyle(
       {required this.backgoundColor,
       this.backgroundCap = StrokeCap.round,
+      this.animationDuration,
       required this.datasetStyles});
 }
 
