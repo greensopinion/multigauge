@@ -79,7 +79,7 @@ class _CircularGaugeState extends State<CircularGauge>
             '${widget.key}_CircularGaugeState${widget.style.hashCode}_${_animation.value}'),
         size: widget.size,
         color: widget.datasetStyle.color,
-        lineSize: widget.datasetStyle.thickness,
+        lineSize: widget.style.thickness,
         strokeCap: StrokeCap.round,
         start: lower,
         end: lower + (size * _animation.value),

@@ -78,14 +78,14 @@ class _MyHomePageState extends State<MyHomePage> {
     final style = MultiGaugeStyle(
         backgoundColor: Theme.of(context).highlightColor,
         animationDuration: const Duration(seconds: 1),
+        thickness: thickness,
         datasetStyles: [
           GaugeDatasetStyle(
-              thickness: thickness,
               color: Colors.orange.shade500,
               builder: (context, dataset) =>
                   Text('${dataset.lower?.round()}-${dataset.upper?.round()}')),
-          GaugeDatasetStyle(thickness: thickness, color: Colors.blue.shade500),
-          GaugeDatasetStyle(thickness: thickness, color: Colors.green.shade500)
+          GaugeDatasetStyle(color: Colors.blue.shade500),
+          GaugeDatasetStyle(color: Colors.green.shade500)
         ]);
     return Scaffold(
         appBar: AppBar(
@@ -94,7 +94,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
         body: Column(children: [
           Padding(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -114,7 +114,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             dimension: size,
                             child: MultiGauge(
                               model: it,
-                              style: style,
+                              style: style.copyWithoutAlpha(
+                                  Theme.of(context).canvasColor),
                             ))))
                     .toList(),
               )

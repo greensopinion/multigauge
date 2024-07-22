@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/widgets.dart';
 import 'widget/gauge_band.dart';
 import 'style.dart';
@@ -13,25 +15,10 @@ class MultiGauge extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LayoutBuilder(
         builder: (context, constraints) {
-          final totalThickness = style.datasetStyles
-              .take(model.datasets.length)
-              .map((it) => it.thickness)
-              .reduce((a, b) => a + b);
-          final children = <Widget>[
-            Padding(
-                padding: EdgeInsets.all(totalThickness / 2.0),
-                child: GaugeBand(
-                  size: constraints.biggest,
-                  color: style.backgoundColor,
-                  lineSize: totalThickness,
-                  strokeCap: style.backgroundCap,
-                  start: 0,
-                  end: 100,
-                  extent: 100,
-                )),
-          ];
+          final backgroundChildren = <Widget>[];
+          final children = <Widget>[];
           final innerChildren = <Widget>[];
-          var padding = 0.0;
+          for (var x = 0; x < model.datasets.length; ++x) {}
           for (var x = 0; x < model.datasets.length; ++x) {
             final dataset = model.datasets[x];
             final datasetStyle = style.datasetStyles[x];
@@ -45,15 +32,43 @@ class MultiGauge extends StatelessWidget {
             if (builder != null) {
               innerChildren.add(builder(context, dataset));
             }
-            children.add(Padding(
-                padding:
-                    EdgeInsets.all(padding + (datasetStyle.thickness / 2.0)),
-                child: child));
-            padding += datasetStyle.thickness;
+            final insets =
+                EdgeInsets.all((x * style.thickness) + (style.thickness / 2.0));
+            if (x > 0) {
+              backgroundChildren.add(
+                Padding(
+                    padding: EdgeInsets.all(x * style.thickness),
+                    child: GaugeBand(
+                      size: constraints.biggest,
+                      color: style.backgoundColor,
+                      lineSize: style.thickness,
+                      strokeCap: StrokeCap.square,
+                      start: 0,
+                      end: 100,
+                      extent: 100,
+                    )),
+              );
+            }
+            backgroundChildren.add(
+              Padding(
+                  padding: insets,
+                  child: GaugeBand(
+                    size: constraints.biggest,
+                    color: style.backgoundColor,
+                    lineSize: style.thickness,
+                    strokeCap: StrokeCap.round,
+                    start: 0,
+                    end: 100,
+                    extent: 100,
+                  )),
+            );
+
+            children.add(Padding(padding: insets, child: child));
           }
           if (innerChildren.isNotEmpty) {
             children.add(Padding(
-                padding: EdgeInsets.all(padding),
+                padding: EdgeInsets.all(
+                    style.thickness * max(1, model.datasets.length)),
                 child: Center(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
@@ -61,7 +76,7 @@ class MultiGauge extends StatelessWidget {
                         children: innerChildren))));
           }
           return Stack(
-            children: children,
+            children: backgroundChildren + children,
           );
         },
       );
