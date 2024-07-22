@@ -43,6 +43,7 @@ class _MyHomePageState extends State<MyHomePage> {
       GaugeDataset(name: 'Second', lower: 15, upper: 53)
     ])
   ];
+  MultiGaugeStyle? style;
 
   void _randomize() {
     setState(() {
@@ -75,18 +76,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final style = MultiGaugeStyle(
-        backgoundColor: Theme.of(context).highlightColor,
-        animationDuration: const Duration(seconds: 1),
-        thickness: thickness,
-        datasetStyles: [
-          GaugeDatasetStyle(
-              color: Colors.orange.shade500,
-              builder: (context, dataset) =>
-                  Text('${dataset.lower?.round()}-${dataset.upper?.round()}')),
-          GaugeDatasetStyle(color: Colors.blue.shade500),
-          GaugeDatasetStyle(color: Colors.green.shade500)
-        ]);
+    var style = this.style;
+    if (style == null) {
+      style = MultiGaugeStyle(
+          backgoundColor: Theme.of(context).highlightColor,
+          animationDuration: const Duration(seconds: 1),
+          thickness: thickness,
+          datasetStyles: [
+            GaugeDatasetStyle(
+                color: Colors.orange.shade500,
+                builder: (context, dataset) => Text(
+                    '${dataset.lower?.round()}-${dataset.upper?.round()}')),
+            GaugeDatasetStyle(color: Colors.blue.shade500),
+            GaugeDatasetStyle(color: Colors.green.shade500)
+          ]);
+      this.style = style;
+    }
     return Scaffold(
         appBar: AppBar(
           backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -114,8 +119,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             dimension: size,
                             child: MultiGauge(
                               model: it,
-                              style: style.copyWithoutAlpha(
-                                  Theme.of(context).canvasColor),
+                              style: style!,
                             ))))
                     .toList(),
               )

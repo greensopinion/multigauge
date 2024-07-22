@@ -1,9 +1,10 @@
 import 'dart:math';
 
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'widget/gauge_band.dart';
 import 'style.dart';
 import 'widget/circular_gauge.dart';
+import 'widget/extensions.dart';
 import 'model.dart';
 
 class MultiGauge extends StatelessWidget {
@@ -18,7 +19,8 @@ class MultiGauge extends StatelessWidget {
           final backgroundChildren = <Widget>[];
           final children = <Widget>[];
           final innerChildren = <Widget>[];
-          for (var x = 0; x < model.datasets.length; ++x) {}
+          final backgroundColor = style.backgoundColor
+              .copyWithoutAlpha(Theme.of(context).canvasColor);
           for (var x = 0; x < model.datasets.length; ++x) {
             final dataset = model.datasets[x];
             final datasetStyle = style.datasetStyles[x];
@@ -40,7 +42,7 @@ class MultiGauge extends StatelessWidget {
                     padding: EdgeInsets.all(x * style.thickness),
                     child: GaugeBand(
                       size: constraints.biggest,
-                      color: style.backgoundColor,
+                      color: backgroundColor,
                       lineSize: style.thickness,
                       strokeCap: StrokeCap.square,
                       start: 0,
@@ -54,7 +56,7 @@ class MultiGauge extends StatelessWidget {
                   padding: insets,
                   child: GaugeBand(
                     size: constraints.biggest,
-                    color: style.backgoundColor,
+                    color: backgroundColor,
                     lineSize: style.thickness,
                     strokeCap: StrokeCap.round,
                     start: 0,
