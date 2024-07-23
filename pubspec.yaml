@@ -1,6 +1,6 @@
 name: multigauge
-description: "A new Flutter package project."
-version: 0.0.1
+description: "Provides a multi-band gauge."
+version: 1.0.0
 homepage:
 
 environment:
