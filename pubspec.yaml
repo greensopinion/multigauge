@@ -1,11 +1,11 @@
 name: multigauge
 description: "Provides a multi-band gauge."
 version: 1.0.0
-homepage:
+homepage: https://github.com/greensopinion/multigauge
 
 environment:
   sdk: '>=3.4.3 <4.0.0'
-  flutter: ">=1.17.0"
+  flutter: ">=3.10.0"
 
 dependencies:
   flutter:
