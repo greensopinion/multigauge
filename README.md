@@ -9,11 +9,26 @@ Provides a Flutter widget that can render a gauge with multiple datasets.
 1. Multiple datasets in a single gauge
 2. Separates style from data
 
+## Install
+
+Run the following command:
+
+```sh
+$ flutter pub add multigauge
+```
+
+This will update your `pubspec.yaml` as follows:
+
+```yaml
+dependencies:
+  multigauge: ^1.0.0
+```
+
 ## Usage
 
-
-
 ```dart
+import 'package:multigauge/multigauge.dart';
+
 // define the model, which represents the data
 final model = MultiGaugeModel(lowerBound: 0.0, upperBound: upperBound, datasets: [
     GaugeDataset(name: 'First', lower: 23, upper: 63),
