@@ -3,14 +3,14 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:multigauge/multigauge.dart';
 
 void main() {
-  test('provdies a widget', () {
+  test('provides a widget', () {
     expect(MultiGauge, MultiGauge);
   });
-  test('provdies a model', () {
+  test('provides a model', () {
     expect(MultiGaugeModel, MultiGaugeModel);
     expect(GaugeDataset, GaugeDataset);
   });
-  test('provdies a style', () {
+  test('provides a style', () {
     expect(MultiGaugeStyle, MultiGaugeStyle);
     expect(GaugeDatasetStyle, GaugeDatasetStyle);
   });
