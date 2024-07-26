@@ -1,6 +1,6 @@
 # multigauge
 
-Provides a widget that can render a gauge with multiple datasets.
+Provides a Flutter widget that can render a gauge with multiple datasets.
 
 <img src="https://raw.githubusercontent.com/greensopinion/multigauge/main/multigauge.png">
 
