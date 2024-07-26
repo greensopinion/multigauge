@@ -7,8 +7,28 @@ import 'widget/circular_gauge.dart';
 import 'widget/extensions.dart';
 import 'model.dart';
 
+/// A widget that renders a gauge with multiple datasets.
+///
+/// To avoid re-rendering on every build, the style and model
+/// should be retained in a stateful widget.
+///
+/// Should be placed within a fixed size container, e.g.
+/// ```
+/// SizedBox.square(
+///    dimension: 90.0,
+///    child: MultiGauge(
+///       ...
+///    )
+/// )
+/// ```
+///
+/// A [MultiGauge] displays datasets as arcs on a circular band.
+/// Multiple datasets are rendered as parallel arcs.
 class MultiGauge extends StatelessWidget {
+  /// The model that provides data for the gauge
   final MultiGaugeModel model;
+
+  /// The style that controls visual aspects of the gauge
   final MultiGaugeStyle style;
 
   const MultiGauge({super.key, required this.model, required this.style});
